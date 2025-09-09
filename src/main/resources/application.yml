@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification_group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      # La clave es que 'properties' esté anidado DENTRO de 'consumer'
+      properties:
+        spring.json.trusted.packages: "*"
+        # Y esta es la línea que resuelve el error:
+        spring.json.value.default.type: com.juancasterba.notificationservice.dto.events.TaskEventDTO
